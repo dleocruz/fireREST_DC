@@ -1,27 +1,27 @@
 # import required dependencies
 from __future__ import print_function
-from fireREST import FireREST
+# import fireREST
+from fireREST import Client
 
 # set variables for execution. Make sure your credentials are correct, ACP exists and syslog alert definition exists
 loglevel = 'DEBUG'
-device = 'fmc.example.com'
-username = 'admin'
-password = 'Cisco123'
+device = '10.34.4.73'
+username = 'Cisco_D2'
+password = 'Nextel2015!'
 domain = 'Global'
-policy = 'lab-policy'
-syslog_alert = 'syslog-server'
-
+policy = 'IPS-CDMX'
+syslog_alert = 'Splunk'
 # Initialize a new api object
-api = FireREST(device=device, username=username, password=password, loglevel=loglevel)
+api = Client(hostname=device, username=username, password=password)
 
 # Get IDs for specified acp and syslog alert. API PK = UUID, so we have to find the matching api object for the name
 # specified.
 
 acp_id = api.get_acp_id_by_name(policy)
-syslog_alert_id = api.get_syslogalert_id_by_name(syslog_alert)
+syslog_alert_id = api.get_syslog_alert_id_by_name(syslog_alert)
 
 # Get all access control rules for the access control policy specified
-acp_rules = api.get_acp_rules(acp_id, expanded=True, domain=domain)
+acp_rules = api.get_acp_rules(acp_id, expanded=True)
 
 # Loop through HTTP response objects
 for response in acp_rules:
